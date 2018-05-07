@@ -61,20 +61,25 @@ class Robot:
         y = self.position.y - self.SHIFT[self.orientation][1]
         self.position = Point(x,y)
 
+
+class Grid:
+    def __init__(self, x_size, y_size):
+      self.x_size = x_size
+      self.y_size = y_size
+
+
 class Simulation:
     """Simulates robot movements based on instructions.
 
        Attributes:
         robot (Robot, we assume there to be only one)
-        grid (Grid, optional)
+        x_size (int): x size of grid
+        y_size (int): y size of grid
 
     """
 
-    def __init__(self, robot, grid = None):
-        if grid:
-            self.grid = grid
-        else:
-            self.grid = None
+    def __init__(self, robot, x_size, y_size):
+        self.grid = Grid(x_size, y_size)
         self.robot = robot
 
     def send_commands(self, commands):
@@ -105,10 +110,14 @@ class Simulation:
         else:
             raise ValueError("invalid command")
 
-class Grid:
-    def __init__(self, x_size, y_size):
-      self.x_size = x_size
-      self.y_size = y_size
+        # simulate wrapping
+        x = self.robot.position.x
+        y = self.robot.position.y
+        if x == self.grid.x_size:
+            self.robot.position = Point(0, y)
+        if y == self.grid.y_size:
+            self.robot.position = Point(x, 0)
+
 
 def main():
     # todo

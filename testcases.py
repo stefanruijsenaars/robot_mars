@@ -47,7 +47,7 @@ class RobotTestCase(unittest.TestCase):
 class SimulationTestCase(unittest.TestCase):
     def setUp(self):
         self.robot = Robot(0, 0, 'N')
-        self.simulation = Simulation(self.robot)
+        self.simulation = Simulation(self.robot, 100, 100)
 
     def test_simulation(self):
         self.assertEqual(self.robot.get_orientation(), 'N')
@@ -65,8 +65,7 @@ class SimulationTestCase(unittest.TestCase):
         self.assertEqual(self.robot.get_position(), Point(0,3))
 
     def test_grid(self):
-        grid = Grid(3, 3)
-        simulation = Simulation(self.robot, grid)
+        self.simulation = Simulation(self.robot, 3, 3)
         # start in lower left corner
         self.assertEqual(self.robot.get_orientation(), 'N')
         self.assertEqual(self.robot.get_position(), Point(0,0))
