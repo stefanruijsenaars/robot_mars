@@ -12,10 +12,10 @@ class Robot:
         x (Point): position of the robot
     """
 
-    # Directions, respectively: N E S W.
+    """Directions, respectively: N E S W."""
     SHIFT = ((0, 1), (1, 0), (0, -1), (-1, 0))
 
-    # Dictionary that translates input chars into internal representation.
+    """Dictionary that translates input chars into internal representation."""
     ORIENTATIONS = {
        'N': 0,
        'E': 1,
@@ -23,7 +23,7 @@ class Robot:
        'W': 3
     }
 
-    """ Stores characters that are associated with the relevant numeric index """
+    """Stores characters that are associated with the relevant numeric index """
     CHAR_ORIENTATIONS = ['N', 'E', 'S', 'W']
 
     def __init__(self, x, y, orientation):
@@ -106,7 +106,6 @@ class Simulation:
             obstacles (set of Points): positions of the obstacles
 
         """
-
         self.grid = Grid(x_size, y_size, obstacles)
         self.robot = robot
 
@@ -177,4 +176,3 @@ def main():
 if __name__ == "__main__":
     # Will only be executed when this module is run directly.
     main()
-
