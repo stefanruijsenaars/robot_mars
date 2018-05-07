@@ -10,6 +10,17 @@ class RobotTestCase(unittest.TestCase):
         self.assertEqual(self.robot.get_orientation(), 'N')
         self.assertEqual(self.robot.get_position(), Point(0,0))
 
+    def test_move_forward(self):
+        self.robot.move_forward()
+        self.assertEqual(self.robot.get_position(), Point(0,1))
+
+    def test_move_backward(self):
+        self.robot.move_forward()
+        self.assertEqual(self.robot.get_position(), Point(0,1))
+        self.robot.move_backward()
+        self.assertEqual(self.robot.get_position(), Point(0,0))
+
+
     def test_turn_left(self):
         self.assertEqual(self.robot.get_orientation(), 'N')
         self.robot.turn_left()
@@ -50,6 +61,31 @@ class SimulationTestCase(unittest.TestCase):
         self.simulation.send_commands("RF")
         self.assertEqual(self.robot.get_orientation(), 'E')
         self.assertEqual(self.robot.get_position(), Point(1,3))
+        self.simulation.send_commands("B")
+        self.assertEqual(self.robot.get_position(), Point(0,3))
+
+    def test_grid(self):
+        grid = Grid(3, 3)
+        simulation = Simulation(self.robot, grid)
+        # start in lower left corner
+        self.assertEqual(self.robot.get_orientation(), 'N')
+        self.assertEqual(self.robot.get_position(), Point(0,0))
+        self.simulation.send_commands("F")
+        self.assertEqual(self.robot.get_position(), Point(0,1))
+        self.simulation.send_commands("F")
+        self.assertEqual(self.robot.get_position(), Point(0,2))
+        self.simulation.send_commands("F")
+        self.assertEqual(self.robot.get_position(), Point(0,0))
+        self.simulation.send_commands("R")
+        self.simulation.send_commands("F")
+        self.assertEqual(self.robot.get_position(), Point(1,0))
+        self.simulation.send_commands("F")
+        self.assertEqual(self.robot.get_position(), Point(2,0))
+        self.simulation.send_commands("F")
+        self.assertEqual(self.robot.get_position(), Point(0,0))
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

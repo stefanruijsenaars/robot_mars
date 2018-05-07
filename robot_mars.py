@@ -1,4 +1,5 @@
 from collections import namedtuple
+import sys
 
 Point = namedtuple('Point', ['x','y'])
 
@@ -42,10 +43,22 @@ class Robot:
         """ Returns a Point with the position of the robot"""
         return self.position
 
+    def turn_left(self):
+        self.orientation = (self.orientation - 1) & 3
+
+    def turn_right(self):
+        self.orientation = (self.orientation + 1) & 3
+
     def move_forward(self):
         """Moves the robot forward by one step"""
         x = self.position.x + self.SHIFT[self.orientation][0]
         y = self.position.y + self.SHIFT[self.orientation][1]
+        self.position = Point(x,y)
+
+    def move_backward(self):
+        """Moves the robot backward by one step"""
+        x = self.position.x - self.SHIFT[self.orientation][0]
+        y = self.position.y - self.SHIFT[self.orientation][1]
         self.position = Point(x,y)
 
 class Simulation:
@@ -75,16 +88,34 @@ class Simulation:
           self.send_command(command)
 
     def send_command(self, command):
+        """ Sends a single command to the robot
+
+        Args:
+            command (char): the command to send to the robot
+
+        """
         if command == "F":
             self.robot.move_forward()
+        elif command == "B":
+            self.robot.move_backward()
+        elif command == "L":
+            self.robot.turn_left()
+        elif command == "R":
+            self.robot.turn_right()
         else:
             raise ValueError("invalid command")
 
+class Grid:
+    def __init__(self, x_size, y_size):
+      self.x_size = x_size
+      self.y_size = y_size
+
 def main():
+    # todo
     pass
+
 
 if __name__ == "__main__":
     # Will only be executed when this module is run directly.
     main()
-robot = Robot(0, 0, 'N')
 
