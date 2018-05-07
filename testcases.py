@@ -20,7 +20,6 @@ class RobotTestCase(unittest.TestCase):
         self.robot.move_backward()
         self.assertEqual(self.robot.get_position(), Point(0,0))
 
-
     def test_turn_left(self):
         self.assertEqual(self.robot.get_orientation(), 'N')
         self.robot.turn_left()
@@ -49,7 +48,6 @@ class RobotTestCase(unittest.TestCase):
         self.assertTrue(Point(1,1) in self.robot.reported_obstacles)
 
 
-
 class SimulationTestCase(unittest.TestCase):
     def setUp(self):
         self.robot = Robot(0, 0, 'N')
@@ -59,7 +57,6 @@ class SimulationTestCase(unittest.TestCase):
         self.simulation.send_commands("FFRFF")
         self.assertEqual(self.robot.get_position(), Point(2,2))
         self.assertEqual(self.robot.get_orientation(), 'E')
-
 
     def test_simulation(self):
         self.assertEqual(self.robot.get_orientation(), 'N')
@@ -110,7 +107,6 @@ class SimulationTestCase(unittest.TestCase):
         self.assertEqual(self.robot.get_position(), Point(1,2))
         self.simulation.send_commands("F")
         self.assertEqual(True, Point(2,2) in self.robot.reported_obstacles)
-
 
 
 if __name__ == '__main__':
