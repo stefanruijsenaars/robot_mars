@@ -34,6 +34,11 @@ class Robot:
         self.position = Point(x, y)
         self.orientation = self.ORIENTATIONS[orientation.upper()]
 
+    def get_orientation(self):
+        return self.orientation
+
+    def get_position(self):
+        return self.position
 
 class Simulation:
     """Simulates robot movements based on instructions.
@@ -48,7 +53,7 @@ class Simulation:
         if grid:
             self.grid = grid
         else:
-            pass
+            self.grid = None
         self.robot = robot
 
     def send_command(self, command):
