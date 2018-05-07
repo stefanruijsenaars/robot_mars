@@ -34,6 +34,7 @@ class Robot:
         """
         self.position = Point(x, y)
         self.orientation = self.ORIENTATIONS[orientation.upper()]
+        self.reported_obstacles = set([])
 
     def get_orientation(self):
         """Returns a char with the orientation (N, S, W, E)"""
@@ -61,11 +62,25 @@ class Robot:
         y = self.position.y - self.SHIFT[self.orientation][1]
         self.position = Point(x,y)
 
+    def report_obstacle(self, point):
+        print("Obstacle at Point" + point)
+        self.reported_obstacles.add(point)
+
+
 
 class Grid:
-    def __init__(self, x_size, y_size):
+    """Models a grid.
+
+       Attributes:
+        obstacles (set of Points that have obstacles on it)
+        x_size (int): x size of grid
+        y_size (int): y size of grid
+
+    """
+    def __init__(self, x_size, y_size, obstacles = set([]):
       self.x_size = x_size
       self.y_size = y_size
+      self.obstacles = obstacles
 
 
 class Simulation:
