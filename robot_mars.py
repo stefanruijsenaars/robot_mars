@@ -39,9 +39,11 @@ class Robot:
         return self.CHAR_ORIENTATIONS[self.orientation]
 
     def get_position(self):
+        """ Returns a Point with the position of the robot"""
         return self.position
 
     def move_forward(self):
+        """Moves the robot forward by one step"""
         x = self.position.x + self.SHIFT[self.orientation][0]
         y = self.position.y + self.SHIFT[self.orientation][1]
         self.position = Point(x,y)
@@ -63,12 +65,20 @@ class Simulation:
         self.robot = robot
 
     def send_commands(self, commands):
+        """ Sends a series of commands to the robot
+
+        Args:
+            commands (str): the commands to send to the robot (we assume valid input)
+
+        """
         for command in commands:
           self.send_command(command)
 
     def send_command(self, command):
         if command == "F":
             self.robot.move_forward()
+        else:
+            raise ValueError("invalid command")
 
 def main():
     pass
