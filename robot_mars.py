@@ -1,6 +1,7 @@
 from collections import namedtuple
 import sys
 
+""" Usage: Point(x=1, y=2) """
 Point = namedtuple('Point', ['x','y'])
 
 class Robot:
@@ -22,6 +23,7 @@ class Robot:
        'W': 3
     }
 
+    """ Stores characters that are associated with the relevant numeric index """
     CHAR_ORIENTATIONS = ['N', 'E', 'S', 'W']
 
     def __init__(self, x, y, orientation):
@@ -45,9 +47,11 @@ class Robot:
         return self.position
 
     def turn_left(self):
+        """ Turns the robot to the left"""
         self.orientation = (self.orientation - 1) & 3
 
     def turn_right(self):
+        """ Turns the robot to the right"""
         self.orientation = (self.orientation + 1) & 3
 
     def move_forward(self):
@@ -63,7 +67,8 @@ class Robot:
         self.position = Point(x,y)
 
     def report_obstacle(self, point):
-        print("Obstacle at Point" + point)
+        """ Reports an obstacle. Assumption: it's enough to print the position."""
+        print("Obstacle at " + str(point))
         self.reported_obstacles.add(point)
 
 
@@ -72,12 +77,12 @@ class Grid:
     """Models a grid.
 
        Attributes:
-        obstacles (set of Points that have obstacles on it)
-        x_size (int): x size of grid
-        y_size (int): y size of grid
+          obstacles (set of Points that have obstacles on it)
+           x_size (int): x size of grid
+           y_size (int): y size of grid
 
     """
-    def __init__(self, x_size, y_size, obstacles = set([]):
+    def __init__(self, x_size, y_size, obstacles = set([])):
       self.x_size = x_size
       self.y_size = y_size
       self.obstacles = obstacles
@@ -87,14 +92,22 @@ class Simulation:
     """Simulates robot movements based on instructions.
 
        Attributes:
-        robot (Robot, we assume there to be only one)
-        x_size (int): x size of grid
-        y_size (int): y size of grid
+           robot (Robot, we assume there to be only one)
+           x_size (int): x size of grid
+           y_size (int): y size of grid
 
     """
 
-    def __init__(self, robot, x_size, y_size):
-        self.grid = Grid(x_size, y_size)
+    def __init__(self, robot, x_size, y_size, obstacles = set([])):
+        """Args:
+            robot (Robot)
+            x_size (int): x size of grid
+            y_size (int): y size of grid
+            obstacles (set of Points): positions of the obstacles
+
+        """
+
+        self.grid = Grid(x_size, y_size, obstacles)
         self.robot = robot
 
     def send_commands(self, commands):
@@ -114,6 +127,8 @@ class Simulation:
             command (char): the command to send to the robot
 
         """
+        previous_position = self.robot.position
+
         if command == "F":
             self.robot.move_forward()
         elif command == "B":
@@ -125,7 +140,23 @@ class Simulation:
         else:
             raise ValueError("invalid command")
 
-        # simulate wrapping
+        self._detect_collisions(previous_position)
+        self._wrap()
+
+    def _detect_collisions(self, previous_position):
+        """Perform collision detection
+        TODO: rather than moving the robot into a square with an obstacle and then correcting, move to the right square to begin with)
+
+        """
+        if self.robot.position in self.grid.obstacles:
+            self.robot.report_obstacle(self.robot.position)
+            self.robot.position = previous_position
+
+    def _wrap(self):
+        """Simulate wrapping
+        TODO: rather than moving the robot into a nonexistent square and then correcting, move to the right square to begin with)
+
+        """
         x = self.robot.position.x
         y = self.robot.position.y
         if x == self.grid.x_size:

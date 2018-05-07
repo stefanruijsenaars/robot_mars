@@ -43,6 +43,12 @@ class RobotTestCase(unittest.TestCase):
         self.robot.turn_right()
         self.assertEqual(self.robot.get_orientation(), 'N')
 
+    def test_report_obstacle(self):
+        self.assertTrue(not Point(1,1) in self.robot.reported_obstacles)
+        self.robot.report_obstacle(Point(1,1))
+        self.assertTrue(Point(1,1) in self.robot.reported_obstacles)
+
+
 
 class SimulationTestCase(unittest.TestCase):
     def setUp(self):
@@ -98,6 +104,12 @@ class SimulationTestCase(unittest.TestCase):
         self.simulation.send_commands("RF")
         self.assertEqual(True, Point(1,1) in self.robot.reported_obstacles)
         self.assertEqual(self.robot.get_position(), Point(0,1))
+        self.simulation.send_commands("LF")
+        self.assertEqual(self.robot.get_position(), Point(0,2))
+        self.simulation.send_commands("RF")
+        self.assertEqual(self.robot.get_position(), Point(1,2))
+        self.simulation.send_commands("F")
+        self.assertEqual(True, Point(2,2) in self.robot.reported_obstacles)
 
 
 
