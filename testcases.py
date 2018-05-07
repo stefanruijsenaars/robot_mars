@@ -82,6 +82,8 @@ class SimulationTestCase(unittest.TestCase):
         self.assertEqual(self.robot.get_position(), Point(2,0))
         self.simulation.send_commands("F")
         self.assertEqual(self.robot.get_position(), Point(0,0))
+        self.simulation.send_commands("B")
+        self.assertEqual(self.robot.get_position(), Point(2,0))
 
 
 

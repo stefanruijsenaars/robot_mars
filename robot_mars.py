@@ -117,6 +117,10 @@ class Simulation:
             self.robot.position = Point(0, y)
         if y == self.grid.y_size:
             self.robot.position = Point(x, 0)
+        if y == -1:
+            self.robot.position = Point(x, self.grid.y_size - 1)
+        if x == -1:
+            self.robot.position = Point(self.grid.x_size - 1, y)
 
 
 def main():
