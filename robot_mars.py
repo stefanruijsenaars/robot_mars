@@ -35,10 +35,16 @@ class Robot:
         self.orientation = self.ORIENTATIONS[orientation.upper()]
 
     def get_orientation(self):
-        return self.orientation
+        """Returns a char with the orientation (N, S, W, E)"""
+        return self.CHAR_ORIENTATIONS[self.orientation]
 
     def get_position(self):
         return self.position
+
+    def move_forward(self):
+        x = self.position.x + self.SHIFT[self.orientation][0]
+        y = self.position.y + self.SHIFT[self.orientation][1]
+        self.position = Point(x,y)
 
 class Simulation:
     """Simulates robot movements based on instructions.
@@ -56,5 +62,19 @@ class Simulation:
             self.grid = None
         self.robot = robot
 
+    def send_commands(self, commands):
+        for command in commands:
+          self.send_command(command)
+
     def send_command(self, command):
-        pass
+        if command == "F":
+            self.robot.move_forward()
+
+def main():
+    pass
+
+if __name__ == "__main__":
+    # Will only be executed when this module is run directly.
+    main()
+robot = Robot(0, 0, 'N')
+
