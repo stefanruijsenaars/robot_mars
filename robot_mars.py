@@ -9,7 +9,8 @@ class Robot:
 
     Attributes:
         orientation (int): direction the robot is facing, where 0 is N, 1 is E, 2 is S, 3 is W
-        x (Point): position of the robot
+        position (Point): position of the robot
+        reported_obstacles (set of Points): position of the obstacles reported by the robot
 
     """
 
@@ -29,10 +30,9 @@ class Robot:
 
     def __init__(self, x, y, orientation):
         """Args:
-            orientation (str): direction the robot is facing ('N', 'E', 'S', 'W')
             x (int): x coordinate of the robot
             y (int): y coordinate of the robot
-            alive (bool): whether the robot is alive or not
+            orientation (str): direction the robot is facing ('N', 'E', 'S', 'W')
 
         """
         self.position = Point(x, y)
@@ -48,11 +48,11 @@ class Robot:
         return self.position
 
     def turn_left(self):
-        """ Turns the robot to the left"""
+        """Turns the robot to the left"""
         self.orientation = (self.orientation - 1) & 3
 
     def turn_right(self):
-        """ Turns the robot to the right"""
+        """Turns the robot to the right"""
         self.orientation = (self.orientation + 1) & 3
 
     def move_forward(self):
@@ -68,14 +68,13 @@ class Robot:
         self.position = Point(x,y)
 
     def report_obstacle(self, point):
-        """ Reports an obstacle. Assumption: it's enough to print the position."""
+        """Reports an obstacle. Assumption: it's enough to print the position and save it into a property."""
         print("Obstacle at " + str(point))
         self.reported_obstacles.add(point)
 
 
-
 class Grid:
-    """Models a grid.
+    """Models a grid (value object).
 
        Attributes:
            x_size (int): x size of grid
