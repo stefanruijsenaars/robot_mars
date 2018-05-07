@@ -10,6 +10,7 @@ class Robot:
     Attributes:
         orientation (int): direction the robot is facing, where 0 is N, 1 is E, 2 is S, 3 is W
         x (Point): position of the robot
+
     """
 
     """Directions, respectively: N E S W."""
@@ -77,15 +78,22 @@ class Grid:
     """Models a grid.
 
        Attributes:
-          obstacles (set of Points that have obstacles on it)
            x_size (int): x size of grid
            y_size (int): y size of grid
+           obstacles (set of Points that have obstacles on it)
 
     """
+
     def __init__(self, x_size, y_size, obstacles = set([])):
-      self.x_size = x_size
-      self.y_size = y_size
-      self.obstacles = obstacles
+        """ Args:
+           x_size (int): x size of grid
+           y_size (int): y size of grid
+           obstacles (set of Points that have obstacles on it)
+
+        """
+        self.x_size = x_size
+        self.y_size = y_size
+        self.obstacles = obstacles
 
 
 class Simulation:
